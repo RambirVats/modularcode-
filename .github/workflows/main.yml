@@ -1,0 +1,12 @@
+on:
+  push:
+    branches:
+      - 'main'
+      - 'feature'
+jobs:
+  Tondumaharaj:
+    name: tondu maharaj print
+    runs-on: ramrunner 
+    Steps:
+    - name: Tondu maharaj rocks
+      run: echo om namay shivay

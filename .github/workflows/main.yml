@@ -9,4 +9,4 @@ jobs:
     runs-on: ramrunner 
     Steps:
     - name: Tondu maharaj rocks
-      run: echo om namay shivay
+      run: echo om namay shivay 

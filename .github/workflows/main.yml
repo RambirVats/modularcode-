@@ -4,9 +4,10 @@ on:
       - 'main'
       - 'feature'
 jobs:
-  Tondumaharaj:
-    name: tondu maharaj print
+  Terraform-job:
+    name: terraform init
     runs-on: Ramrunner 
     steps:
-    - name: Tondu maharaj rocks
-      run: echo om namay shivay 
+      - name: Checkout
+        uses: actions/checkout@v5.0.0
+    

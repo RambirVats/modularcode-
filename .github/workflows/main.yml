@@ -6,7 +6,7 @@ on:
 jobs:
   Tondumaharaj:
     name: tondu maharaj print
-    runs-on: ramrunner 
-    Steps:
+    runs-on: Ramrunner 
+    steps:
     - name: Tondu maharaj rocks
       run: echo om namay shivay 

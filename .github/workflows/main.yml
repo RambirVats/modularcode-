@@ -1,11 +1,10 @@
-name: github pipeline1
+name: github-pipeline1
 
 on:
   workflow_dispatch:
 
 jobs:
   Terraform-job:
-    name: terraform init
     runs-on: self-hosted
     steps:
       - name: Checkout
@@ -23,4 +22,5 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan
+
 

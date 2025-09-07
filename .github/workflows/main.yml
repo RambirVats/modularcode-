@@ -1,8 +1,6 @@
+name:github pipeline1
 on:
-  push:
-    branches:
-      - 'main'
-      - 'feature'
+  workflow_dispatch:
 jobs:
   Terraform-job:
     name: terraform init
@@ -10,20 +8,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5.0.0
-      - name: Install Terraform
-         uses: little-core-labs/install-terraform@v2.0.0
+      - name: Azure Login
+        uses: Azure/login@v2.3.0
         with:
-          
-          version: 1.13.0
-        - name: Terraform Init
-           run: terraform init
-
+          client-id: e1dc23a5-f4d1-4d82-9d97-6d3bcee54fe1
+          tenant-id: efeb520c-f48c-485c-95c5-be148c93599f
+          subscription-id: c05900c4-9a99-417d-878e-413b907a6035
+       - name: Terraform Init
+        run: terraform init
       - name: Terraform Plan
-        run: terraform plan
-       
-   
+        run: terraform plan -out=tfplan
+      
           
-          
-    
-        
+      
     

@@ -1,26 +1,26 @@
-name:github pipeline1
+
+name: github pipeline1
+
 on:
   workflow_dispatch:
- 
+
 jobs:
   Terraform-job:
     name: terraform init
-    runs-on: self-hosted 
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v5.0.0
+
       - name: Azure Login
-        uses: Azure/login@v2.3.0
+        uses: azure/login@v2.3.0
         with:
           client-id: e1dc23a5-f4d1-4d82-9d97-6d3bcee54fe1
           tenant-id: efeb520c-f48c-485c-95c5-be148c93599f
           subscription-id: c05900c4-9a99-417d-878e-413b907a6035
-       - name: Terraform Init
+
+      - name: Terraform Init
         run: terraform init
+
       - name: Terraform Plan
-      
-        run: terraform plan -out=tfplan
-      
-          
-      
-    
+        run: terraform plan

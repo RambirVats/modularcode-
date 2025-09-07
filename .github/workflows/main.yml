@@ -2,7 +2,7 @@ name: github-pipeline1
 on:
   workflow_dispatch:
 permissions:
-  content: read
+  contents: read
   id-token: write
 
 jobs:

@@ -3,7 +3,7 @@ on: workflow_dispatch
 jobs:
   Terraform-job:
     name: terraform init
-    runs-on: Ramrunner 
+    runs-on: self-hosted 
     steps:
       - name: Checkout
         uses: actions/checkout@v5.0.0

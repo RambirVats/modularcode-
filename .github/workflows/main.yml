@@ -1,6 +1,9 @@
 name: github-pipeline1
 on:
-  workflow_dispatch:
+  push:
+    branches:
+    - main
+    - feature/*
 permissions:
   contents: read
   id-token: write

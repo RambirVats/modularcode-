@@ -21,12 +21,14 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: ./infra
         
         
         
 
       - name: Terraform Plan
         run: terraform plan
+        working-directory: ./infra
 
         
         

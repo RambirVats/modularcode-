@@ -1,15 +1,19 @@
+
+
 name: github-pipeline1
+
 on:
   push:
     branches:
-    - main
-    - feature/*
+      - main
+      - feature/*
+
 permissions:
   contents: read
   id-token: write
 
 jobs:
-  Terraform-job:
+  Terraform-Plan:
     runs-on: Ramrunner
     steps:
       - name: Checkout
@@ -25,15 +29,35 @@ jobs:
       - name: Terraform Init
         run: terraform init
         working-directory: ./infra
-        
-        
-        
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -out=tfplan
         working-directory: ./infra
 
-        
-        
+  manual-approval:
+    needs: Terraform-Plan
+    runs-on: Ramrunner
+    environment:
+      name: dev      
+    steps:
+      - name: Wait for manual approval
+        run: echo "Please approve this deployment from the 'production' environment in GitHub UI."
 
+  Terraform-Apply:
+    needs: manual-approval
+    runs-on: Ramrunner
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5.0.0
+
+      - name: Azure Login
+        uses: azure/login@v2.3.0
+        with:
+          client-id: e1dc23a5-f4d1-4d82-9d97-6d3bcee54fe1
+          tenant-id: efeb520c-f48c-485c-95c5-be148c93599f
+          subscription-id: c05900c4-9a99-417d-878e-413b907a6035
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
+        working-directory: ./infra
 

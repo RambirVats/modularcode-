@@ -30,11 +30,11 @@ jobs:
 
     - name: terraform init
       run: terraform init
-      working-directory: environment/dev
+      working-directory: ./infra
 
     - name: terraform plan
       run: terraform plan 
-      working-directory: environment/dev
+      working-directory: ./infra
   
   deploy:
     name: terraform apply
@@ -56,10 +56,10 @@ jobs:
     
     - name: terraform init
       run: terraform init
-      working-directory: environment/dev    
+      working-directory: ./infra  
     - name: terraform apply 
       run: terraform apply --auto-approve
-      working-directory: environment/dev
+      working-directory: ./infra
        
         
         

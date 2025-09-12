@@ -4,12 +4,13 @@ on:
     branches:
       - main
       - feature/*
+
 permissions:
   contents: read
   id-token: write
 
 jobs:
-  Terraform-job:
+  terraform-plan:
     runs-on: Ramrunner
     steps:
       - name: Checkout
@@ -29,18 +30,20 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -out=tfplan
         working-directory: ./infra
-        
-      - name: Terraform apply
-        run: terraform apply
-        working-directory: ./infra
+
+      - name: Upload plan artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan
+          path: ./infra/tfplan
 
   manual-approval:
-    needs: Terraform-job
+    needs: terraform-plan
     runs-on: ubuntu-latest
-    environment: dev
+    environment: dev # <-- Ye environment approval ke liye
     steps:
       - name: Awaiting Approval
-        run: echo 
+        run: echo "Waiting for approval..."
 
   terraform-apply:
     needs: manual-approval
@@ -55,6 +58,12 @@ jobs:
           client-id: e1dc23a5-f4d1-4d82-9d97-6d3bcee54fe1
           tenant-id: efeb520c-f48c-485c-95c5-be148c93599f
           subscription-id: c05900c4-9a99-417d-878e-413b907a6035
+
+      - name: Download plan artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: tfplan
+          path: ./infra
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan

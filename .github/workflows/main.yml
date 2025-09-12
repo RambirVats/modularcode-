@@ -65,6 +65,10 @@ jobs:
           name: tfplan
           path: ./infra
 
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ./infra
+
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
         working-directory: ./infra

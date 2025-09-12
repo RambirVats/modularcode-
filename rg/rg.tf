@@ -1,4 +1,9 @@
 resource "azurerm_resource_group" "rg" {
-    name     = "ram11"
+    name     = var.name
     location = "eastus"
 }
+variable "name" {
+  
+}
+    
+    

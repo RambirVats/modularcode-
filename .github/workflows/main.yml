@@ -3,10 +3,10 @@ name: github pipeline
 on:
   pull_request:
     branches:
-    - main
+      - main
   push:
     branches:
-    - main
+      - main
 
 permissions:
   contents: read
@@ -16,53 +16,48 @@ jobs:
   build:
     name: terraform init and plan
     runs-on: self-hosted
-    environment: dev 
-    steps: 
-    - name: Checkout
-      uses: actions/checkout@v5.0.0
-     
-    - name: Azure Login
-      uses: Azure/login@v2.3.0
-      with:
-        client-id: e1dc23a5-f4d1-4d82-9d97-6d3bcee54fe1
-        tenant-id: efeb520c-f48c-485c-95c5-be148c93599f
-        subscription-id: c05900c4-9a99-417d-878e-413b907a6035
+    environment: dev
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5.0.0
 
-    - name: terraform init
-      run: terraform init
-      working-directory: environment/dev
+      - name: Azure Login
+        uses: Azure/login@v2.3.0
+        with:
+          client-id: e1dc23a5-f4d1-4d82-9d97-6d3bcee54fe1
+          tenant-id: efeb520c-f48c-485c-95c5-be148c93599f
+          subscription-id: c05900c4-9a99-417d-878e-413b907a6035
 
-    - name: terraform plan
-      run: terraform plan 
-      working-directory: environment/dev
-  
+      - name: terraform init
+        run: terraform init
+        working-directory: ./infra
+
+      - name: terraform plan
+        run: terraform plan
+        working-directory: ./infra
+
   deploy:
     name: terraform apply
     runs-on: self-hosted
     if: ${{ github.ref == 'refs/heads/main' }}
     needs: build
-    environment: dev
-    steps: 
-    - name: Checkout
-      uses: actions/checkout@v5.0.0
-     
-    - name: Azure Login
-      uses: Azure/login@v2.3.0
-      with:
-        client-id: e1dc23a5-f4d1-4d82-9d97-6d3bcee54fe1
-        tenant-id: efeb520c-f48c-485c-95c5-be148c93599f
-        subscription-id: c05900c4-9a99-417d-878e-413b907a6035
+    environment: dev    # 👈 Approval yahi se trigger hoga
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5.0.0
 
-    
-    - name: terraform init
-      run: terraform init
-      working-directory: environment/dev    
-    - name: terraform apply 
-      run: terraform apply --auto-approve
-      working-directory: environment/dev
-       
+      - name: Azure Login
+        uses: Azure/login@v2.3.0
+        with:
+          client-id: e1dc23a5-f4d1-4d82-9d97-6d3bcee54fe1
+          tenant-id: efeb520c-f48c-485c-95c5-be148c93599f
+          subscription-id: c05900c4-9a99-417d-878e-413b907a6035
+
+      - name: terraform init
+        run: terraform init
+        working-directory: ./infra
+
+      - name: terraform apply
+        run: terraform apply --auto-approve
+        working-directory: ./infra
         
-        
-      
-       
-          
